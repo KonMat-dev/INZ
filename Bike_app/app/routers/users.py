@@ -1,12 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi_sqlalchemy import db
 
+
 from app.models.schema import User as SchemaUser
-from app.models.user import User as UserModel
+from app.models.user import User as UserModel, User
+
 
 router = APIRouter()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 @router.post("/add_user/", tags=["users"], response_model=SchemaUser)
@@ -26,11 +28,8 @@ async def get_users():
     return users
 
 
-@router.get("/users/me", tags=["users"])
-async def read_user_me():
-    return {"user_id": "the current user"}
+# @router.get("/users/me", tags=["users"])
+# async def read_users_me(current_user: User = Depends(get_current_user2)):
+#     return current_user
 
 
-@router.get("/users/{user_id}", tags=["users"])
-async def read_user(user_id: str):
-    return {"user_id": user_id}

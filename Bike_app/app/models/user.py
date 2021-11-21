@@ -1,10 +1,10 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy import Column, Integer, String
+
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 class UserLength():
@@ -25,13 +25,13 @@ class User(Base):
     email = Column(String)
     description = Column(String)
 
+
     def __init__(self, first_name=None, second_name=None, phone_number=None, password=None, email=None,
-                 description=None):
+                 description=None, disabled=False, username=None):
+
         self.first_name = first_name
         self.second_name = second_name
         self.phone_number = phone_number
         self.password = password
         self.email = email
         self.description = description
-
-
